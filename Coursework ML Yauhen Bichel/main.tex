@@ -1,0 +1,210 @@
+%%%%%%%% CW 2021 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{booktabs} % for professional tables
+
+\usepackage[style=authoryear,backend=biber]{biblatex}
+\addbibresource{ref.bib}% Syntax for version >= 1.2
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage{fancyvrb}
+
+% hyperref makes hyperlinks in the resulting PDF.
+\usepackage{xurl}
+\usepackage{hyperref}
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\usepackage{accessibility}
+
+\usepackage{cw}
+
+\begin{document}
+
+\twocolumn[
+\cwtitle{Machine Learning}
+
+\begin{cwauthorlist}
+\cwauthor{Student ID - 001185491}
+\end{cwauthorlist}
+
+% You may provide any keywords that you
+% find helpful for describing your paper; these are used to populate
+% the "keywords" metadata in the PDF but will not be shown in the document
+\cwkeywords{Artificial Intelligence, Machine Learning}
+
+\vskip 0.3in
+]
+
+\begin{abstract}
+Melanoma\footnote{This template and document is based on \href{https://media.icml.cc/Conferences/ICML2021/Styles/icml2021\_style.zip}{ICML 2021 LaTeX style file} (\url{https://media.icml.cc/Conferences/ICML2021/Styles/icml2021\_style.zip})} is one of the healthcare topics, where machine learning algorithms can be applied. Mainly, doctors make the decisions based on the view of the moles. This document provides one of the possible ML decisions to classify moles whether mole has melanoma or not. The paper discusses Convolutional Neural Network deep learning method as a method for melanoma classifcation problem.
+\end{abstract}
+
+\section{Introduction}
+% After reading the following explanation, please delete it and write your description.
+
+
+\((x, y) x \)   $\boldsymbol{x} \in \mathbb{R}^{n_{x}}$ , $\boldsymbol{y} \in \mathbb{\{0, 1\}}$
+
+$m = m_{train}$
+$m_{test}$ = test
+
+The introduction is the most essential section, where students are required to explain the problem setting and the essential idea of their approach, and justify it scientifically.
+Throughout the report, students need to avoid personal views or claims. Everything in the report should be scientific. 
+In other words, it should be clear, specific, logical, and justified with reference to the journal papers or conference proceedings.
+
+\subsection{What should we write in the Introduction section?}
+In the Introduction section, students are required to briefly explain the outline of the coursework so that the readers can understand core contents of the report before reading the remaining parts. Specifically, you are required to
+\begin{itemize}
+    \item Introduce the research background, referring scientific papers,
+    \item Introduce what problem to be solved in the report, 
+    \item Describe what methods to be used for solving the problem and explain why it is appropriate,
+    
+    (Do not explain the reason for choosing the method like: ``XXX is used in PPP, so we use XXX in this paper.'' Instead, explanation should be like ``XXX has been proposed to solve the problem of ZZZ. The solution to ZZZ will improve WWW of our problem, because of VVV. This is why we chose XXX.'')
+    \item Describe the details of the methods that you used,
+    \item Explain experimental settings for evaluation, e.g., what algorithms were implemented, what datasets were used, what evaluation criteria were adopted, what baseline methods were compared etc., and
+    \item Summarise the overall results and judge whether your model succeeded or not.
+\end{itemize}
+The conciseness of the description is also essential. Each of the above items should be ideally given in 1-3 sentences.
+Although the students do not need to write an independent section for literature review, referring to existing literature is necessary where you explain the background and existing methods.
+
+\subsection{How to use this template?}
+This template is for \LaTeX.
+\LaTeX is now regarded as a de-facto standard word processing application.
+The following is quick guide for this template.
+\begin{itemize}
+    \item \verb|ref.bib| file manages the references and you should edit the other pieces of information, including title, body text, etc. in \verb|main.tex|.
+    \item The configure is described before \verb|\begin{document}| command, and the body text should be described between \verb|\begin{document}| and \verb|\end{document}| commands. 
+    \item You can change the title, author name, submission date by editing the operands of \verb|\cwtitle| and \verb|\cwauthor| commands. You can find these before \verb|\begin{document}|.
+    \item Please put your abstract between \verb|\begin{abstract}| and \verb|\end{abstract}|.
+    \item Please use \verb|\section|, \verb|\subsection|, \verb|\subsubsection| to create a section, subsection, and subsubsection. 
+    Partitioning the text by these commands may improve the readablity.
+    \item You can use numerous commands to write mathematical symbols, lists, images, tables, etc. \href{https://v1.overleaf.com/latex/templates/a-quick-guide-to-latex/fghqpfgnxggz.pdf}{A quick guide to \LaTeX} \url{https://v1.overleaf.com/latex/templates/a-quick-guide-to-latex/fghqpfgnxggz.pdf} would help you. The source code of the PDF is available from \url{https://www.overleaf.com/latex/templates/a-quick-guide-to-latex/fghqpfgnxggz}.
+\end{itemize}
+
+\subsection{Citation examples}
+For academic writing, citation is always important to clarify the source of your description and to indicate that your description is not your personal opinion. 
+In our school, (especially for the final year project), it is recommended to adopt the Harvard style as a citation style. 
+The followings are examples of citations using the Harvard style given in \href{https://www.overleaf.com/latex/examples/a-simple-example-showing-how-to-create-harvard-style-referencing-in-latex/mnwzgkyvdbyy}{A simple example showing how to create Harvard style referencing in LaTeX}.
+Wherever students cite some papers to reinforce their description, they shall summarise the discussion in the paper correctly.  
+The following is examples of citations\footnote{these are examples given in \url{https://www.overleaf.com/latex/examples/a-simple-example-showing-how-to-create-harvard-style-referencing-in-latex/mnwzgkyvdbyy}}.
+\begin{enumerate}
+\item A citation command in parentheses \parencite{Smith:2012qr}: \verb|\parencite| command \parencite{Smith:2012qr}.
+\item A citation command for use in the flow of text: \verb|\textcite| command: As \textcite{Smith:2013jd} said \dots
+\end{enumerate}
+
+These citations is realized by BiBLaTeX commands. A quick cheat sheet for BibLaTeX commands is available in \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{Biblatex Cheat Sheet}.
+
+\subsubsection{Exercise (Citation) 1}
+Try citing ``Generalization Error Bound for Hyperbolic Ordinal Embedding'' authored by Atsushi Suzuki et al. using Google Scholar's output.
+
+\subsubsection{Exercise (Citation) 2}
+Try citing ``Fourier-analysis-based Form of Normalized Maximum Likelihood: Exact Formula and Relation to Complex Bayesian Prior'' authored by Atsushi Suzuki et al. using Google Scholar's output.
+
+
+\section{Methods}
+% After reading the following explanation, please delete it and write your description.
+In the Methods section, students are required to describe their methods in this section. Specifically, you might have to describe the algorithm, model, loss or function, training dataset, hardware, software, libraries, used to solve the problem. You should make a strict and concise description of the model, using equations and figures. 
+Although you can enhance the readability using figures and tables, the body text should also be self-contained, that is, informative enough for readers to understand the core part without checking the tables and figures. 
+Also, the captions of all figures and tables should also be self-contained. 
+
+\subsection{Examples of mathematical symbols}
+Equations play an essential role to define an computer science method strictly. 
+To express equations in \LaTeX, many commands will help you.
+You can check some of them in \href{https://v1.overleaf.com/latex/templates/a-quick-guide-to-latex/fghqpfgnxggz.pdf}{A quick guide to \LaTeX} \url{https://v1.overleaf.com/latex/templates/a-quick-guide-to-latex/fghqpfgnxggz.pdf}.
+Also, this template includes \verb|amssymb|, \verb|amsmath|, \verb|physics| to provide useful commands.
+Please see \href{https://www.math.brown.edu/johsilve/ReferenceCards/LaTeXRefCard.v2.0.pdf}{AMS-LaTeX Reference Card} (\url{https://www.math.brown.edu/johsilve/ReferenceCards/LaTeXRefCard.v2.0.pdf}) and \href{http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/physics/physics.pdf}{The physics package documentation} (\url{http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/physics/physics.pdf}) for further details.
+
+
+The following is an example of explaining the linear regression model. In the following, we denote by $\mathbb{R}$ and $\mathbb{Z}_{\ge 0}$ the set of real values and nonnegative integers, respectively. 
+For $n \in \mathbb{Z}$, $\mathbb{R}^{n}$ denotes the set of $n$-dimensional real vectors.
+For $\boldsymbol{x} \in \mathbb{R}^{n}$, we denote its transpose by $\boldsymbol{x}^\top$.
+Let $m, n \in \mathbb{Z}$.
+Linear regression aims to predict the target value $y \in \mathbb{R}$ from a feature vector $\boldsymbol{x} \in \mathbb{R}^{n}$.
+The model has a $n$-dimensional vector $\boldsymbol{\theta}$ as a parameter, and its hypothesis function $h_{\boldsymbol{\theta}}: \mathbb{R}^{n} \to \mathbb{R}$ is defined by
+\begin{equation}
+h_{\boldsymbol{\theta}} (\boldsymbol{x}) = \boldsymbol{x}^\top \boldsymbol{\theta}.
+\end{equation}
+Suppose that we have training data $(\boldsymbol{x}_{0}, y_{0}), (\boldsymbol{x}_{1}, y_{1}), \dots, (\boldsymbol{x}_{m-1}, y_{m-1})$, where $\boldsymbol{x}_{i} \in \mathbb{R}^{n}$ and $y_{i} \in \mathbb{R}$ are the feature vector and target value of the $i$-th data point, respectively.
+The loss function $l: \mathbb{R}^{n} \to \mathbb{R}$ of linear regression is the mean squared error, defined as follows:
+\begin{equation}
+  \frac{1}{2} \cdot \frac{1}{m} \sum_{i=0}^{m-1} (y_{i} - \boldsymbol{x}_{i}^\top \boldsymbol{\theta})^{2}.
+\end{equation}
+
+\subsubsection{Exercise (mathematical expression)}
+Try writing the quadratic formula by \LaTeX command.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Hyperparameter settings for the support vector machine (SVM) \parencite{cortes1995support}.}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Parameter name} & Value \\
+    \midrule
+    \textbf{Regularization strength $C$} & $1.0 \times 10^{\pm0}$ \\
+    \textbf{Kernel} & RBF kernel \\
+    \textbf{Kernel coefficient $\gamma$} & $1.0 \times 10^{-2}$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tb:setting}
+\end{table}
+\begin{table}[htbp]
+  \centering
+  \caption{$R^2$ score on the XXX dataset. The higher, the better. The bold digits indicate the best results. Note that these results are dummy.}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Model} & $R^2$ score \\
+    \midrule
+    \textbf{LR (proposed)} & 0.6273 \\
+    SVR \parencite{drucker1997support} & \textbf{0.8320} \\
+    RFR \parencite{breiman2001random} & 0.7519 \\
+    \bottomrule
+  \end{tabular}
+  \label{tb:results}
+\end{table}
+
+
+\section{Experiments}
+% After reading the following explanation, please delete it and write your description.
+In the Experiments section, students are required to describe the dataset, experimental settings, evaluation criteria, results, and discussion.
+\subsection{Experimental settings}
+In this subsection, students are required to describe the experimental settings, such as tasks and their objectives, baseline methods to be compared with the proposed method, datasets on which experiments are conducted and their sources, hyperparameter (e.g. regularisation parameter, the number of units and layers in a neural network) selection strategy, etc.
+Table \ref{tb:setting} gives an example of showing hyperparameter settings for the support vector machine \parencite{cortes1995support} with the RBF kernel.
+\subsection{Evaluation criteria}
+In this subsection, students are required to clarify evaluation criteria used in the coursework, such as the accuracy, mean squared error, $R^2$ score, elapsed time, F1 score, inception score etc. 
+Also, students must explain, why the criteria are appropriate.
+\subsection{Results}
+In this subsection, students are required to describe objective results, such as accuracy, score, elapsed time, etc. It is better to put discussion or interpretation on the results to the following Discussion subsection. Although you should enhance the readability using figures and tables, the body text should also be self-contained; in other words, you should describe it so that readers can understand the key results even without reading the tables or figures. Also, the caption of tables and figures should also be self-contained, so that readers can understand what the table or figure is about. Table \ref{tb:results} gives an example of showing experimental results comparing Linear regression (LR), support vector regression (SVR) \parencite{drucker1997support}, random forest regression (RFR) \parencite{breiman2001random}. The results show that the support vector regressor achieved the best results on the XXX dataset.
+
+\subsection{Discussion}
+In this subsection, students are required to discuss the possible reason that causes the results, such as what property of the method dominated the results. The discussion must be fair, objective, and reasonable. Please do not write your discussion as ``XXX outperforms YYY because XXX is better than YYY.'' Instead, the discussion should be like``because XXX has AAA property that is suitable for the tasks/datasets, XXX achieves better performance than YYY.''
+
+\section{Conclusion}
+In the Conclusion section, students are required to provide the conclusion of the report, that is, what knowledge readers can obtain from the report, including whether your method is effective or not for the problem. The conclusion must also be objective, and reasonable.
+
+% Acknowledgements should only appear in the accepted version.
+\section*{Acknowledgements}
+
+\textbf{Do not} include acknowledgements unless it is really needed. Typically, this will include thanks to colleagues who contributed to the ideas. Do not include acknowledgements to the tutors, just because they are your tutors.
+
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DELETE OR COMMENT OUT THIS PART. DO NOT PLACE CONTENT AFTER THE REFERENCES!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\include{instruction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

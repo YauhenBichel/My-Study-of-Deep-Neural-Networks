@@ -1,0 +1,1777 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Planar\_data\_classification\_with\_one\_hidden\_layer}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{planar-data-classification-with-one-hidden-layer}{%
+\section{Planar data classification with one hidden
+layer}\label{planar-data-classification-with-one-hidden-layer}}
+
+Welcome to your week 3 programming assignment! It's time to build your
+first neural network, which will have one hidden layer. Now, you'll
+notice a big difference between this model and the one you implemented
+previously using logistic regression.
+
+By the end of this assignment, you'll be able to:
+
+\begin{itemize}
+\tightlist
+\item
+  Implement a 2-class classification neural network with a single hidden
+  layer
+\item
+  Use units with a non-linear activation function, such as tanh
+\item
+  Compute the cross entropy loss
+\item
+  Implement forward and backward propagation
+\end{itemize}
+
+    \hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{itemize}
+\tightlist
+\item
+  Section \ref{1}
+\item
+  Section \ref{2}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Section \ref{ex-1}
+  \end{itemize}
+\item
+  Section \ref{3}
+\item
+  Section \ref{4}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Section \ref{4-1}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-2}
+    \end{itemize}
+  \item
+    Section \ref{4-2}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-3}
+    \end{itemize}
+  \item
+    Section \ref{4-3}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-4}
+    \end{itemize}
+  \item
+    Section \ref{4-4}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-5}
+    \end{itemize}
+  \item
+    Section \ref{4-5}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-6}
+    \end{itemize}
+  \item
+    Section \ref{4-6}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-7}
+    \end{itemize}
+  \item
+    Section \ref{4-7}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-8}
+    \end{itemize}
+  \end{itemize}
+\item
+  Section \ref{5}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Section \ref{5-1}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Section \ref{ex-9}
+    \end{itemize}
+  \item
+    Section \ref{5-2}
+  \end{itemize}
+\item
+  Section \ref{6}
+\item
+  Section \ref{7}
+\end{itemize}
+
+    \# 1 - Packages
+
+First import all the packages that you will need during this assignment.
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.numpy.org/}{numpy} is the fundamental package for
+  scientific computing with Python.
+\item
+  \href{http://scikit-learn.org/stable/}{sklearn} provides simple and
+  efficient tools for data mining and data analysis.
+\item
+  \href{http://matplotlib.org}{matplotlib} is a library for plotting
+  graphs in Python.
+\item
+  testCases provides some test examples to assess the correctness of
+  your functions
+\item
+  planar\_utils provide various useful functions used in this assignment
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Package imports}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{copy}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{testCases\PYZus{}v2} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from} \PY{n+nn}{public\PYZus{}tests} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{import} \PY{n+nn}{sklearn}
+\PY{k+kn}{import} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{datasets}
+\PY{k+kn}{import} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}
+\PY{k+kn}{from} \PY{n+nn}{planar\PYZus{}utils} \PY{k+kn}{import} \PY{n}{plot\PYZus{}decision\PYZus{}boundary}\PY{p}{,} \PY{n}{sigmoid}\PY{p}{,} \PY{n}{load\PYZus{}planar\PYZus{}dataset}\PY{p}{,} \PY{n}{load\PYZus{}extra\PYZus{}datasets}
+
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+
+\PY{o}{\PYZpc{}}\PY{k}{load\PYZus{}ext} autoreload
+\PY{o}{\PYZpc{}}\PY{k}{autoreload} 2
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The autoreload extension is already loaded. To reload it, use:
+  \%reload\_ext autoreload
+    \end{Verbatim}
+
+    \# 2 - Load the Dataset
+
+Now, load the dataset you'll be working on. The following code will load
+a ``flower'' 2-class dataset into variables X and Y.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{load\PYZus{}planar\PYZus{}dataset}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Visualize the dataset using matplotlib. The data looks like a ``flower''
+with some red (label y=0) and some blue (y=1) points. Your goal is to
+build a model to fit this data. In other words, we want the classifier
+to define regions as either red or blue.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Visualize the data:}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{Y}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{40}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{Spectral}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    You have: - a numpy-array (matrix) X that contains your features (x1,
+x2) - a numpy-array (vector) Y that contains your labels (red:0,
+blue:1).
+
+First, get a better sense of what your data is like.
+
+\#\#\# Exercise 1
+
+How many training examples do you have? In addition, what is the
+\texttt{shape} of the variables \texttt{X} and \texttt{Y}?
+
+\textbf{Hint}: How do you get the shape of a numpy array?
+\href{https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.shape.html}{(help)}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} (≈ 3 lines of code)}
+\PY{c+c1}{\PYZsh{} shape\PYZus{}X = ...}
+\PY{c+c1}{\PYZsh{} shape\PYZus{}Y = ...}
+\PY{c+c1}{\PYZsh{} training set size}
+\PY{c+c1}{\PYZsh{} m = ...}
+\PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+\PY{n}{shape\PYZus{}X} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{shape}
+\PY{n}{shape\PYZus{}Y} \PY{o}{=} \PY{n}{Y}\PY{o}{.}\PY{n}{shape}
+\PY{n}{m} \PY{o}{=} \PY{n}{Y}\PY{o}{.}\PY{n}{size}
+
+\PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The shape of X is: }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{shape\PYZus{}X}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The shape of Y is: }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{shape\PYZus{}Y}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{I have m = }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ training examples!}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{m}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The shape of X is: (2, 400)
+The shape of Y is: (1, 400)
+I have m = 400 training examples!
+    \end{Verbatim}
+
+    \textbf{Expected Output}:
+
+shape of X
+
+(2, 400)
+
+shape of Y
+
+(1, 400)
+
+m
+
+400
+
+    \#\# 3 - Simple Logistic Regression
+
+Before building a full neural network, let's check how logistic
+regression performs on this problem. You can use sklearn's built-in
+functions for this. Run the code below to train a logistic regression
+classifier on the dataset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Train the logistic regression classifier}
+\PY{n}{clf} \PY{o}{=} \PY{n}{sklearn}\PY{o}{.}\PY{n}{linear\PYZus{}model}\PY{o}{.}\PY{n}{LogisticRegressionCV}\PY{p}{(}\PY{p}{)}\PY{p}{;}
+\PY{n}{clf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{Y}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    You can now plot the decision boundary of these models! Run the code
+below.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Plot the decision boundary for logistic regression}
+\PY{n}{plot\PYZus{}decision\PYZus{}boundary}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logistic Regression}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print accuracy}
+\PY{n}{LR\PYZus{}predictions} \PY{o}{=} \PY{n}{clf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy of logistic regression: }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{float}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{Y}\PY{p}{,}\PY{n}{LR\PYZus{}predictions}\PY{p}{)} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{Y}\PY{p}{,}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{LR\PYZus{}predictions}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{Y}\PY{o}{.}\PY{n}{size}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{)} \PY{o}{+}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{(percentage of correctly labelled datapoints)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Accuracy of logistic regression: 47 \% (percentage of correctly labelled
+datapoints)
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \textbf{Expected Output}:
+
+Accuracy
+
+47\%
+
+    \textbf{Interpretation}: The dataset is not linearly separable, so
+logistic regression doesn't perform well. Hopefully a neural network
+will do better. Let's try this now!
+
+    \#\# 4 - Neural Network model
+
+Logistic regression didn't work well on the flower dataset. Next, you're
+going to train a Neural Network with a single hidden layer and see how
+that handles the same problem.
+
+\textbf{The model}:
+
+\textbf{Mathematically}:
+
+For one example \(x^{(i)}\):
+\[z^{[1] (i)} =  W^{[1]} x^{(i)} + b^{[1]}\tag{1}\]
+\[a^{[1] (i)} = \tanh(z^{[1] (i)})\tag{2}\]
+\[z^{[2] (i)} = W^{[2]} a^{[1] (i)} + b^{[2]}\tag{3}\]
+\[\hat{y}^{(i)} = a^{[2] (i)} = \sigma(z^{ [2] (i)})\tag{4}\]
+\[y^{(i)}_{prediction} = \begin{cases} 1 & \mbox{if } a^{[2](i)} > 0.5 \\ 0 & \mbox{otherwise } \end{cases}\tag{5}\]
+
+Given the predictions on all the examples, you can also compute the cost
+\(J\) as follows:
+\[J = - \frac{1}{m} \sum\limits_{i = 0}^{m} \large\left(\small y^{(i)}\log\left(a^{[2] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[2] (i)}\right)  \large  \right) \small \tag{6}\]
+
+\textbf{Reminder}: The general methodology to build a Neural Network is
+to: 1. Define the neural network structure ( \# of input units, \# of
+hidden units, etc). 2. Initialize the model's parameters 3. Loop: -
+Implement forward propagation - Compute loss - Implement backward
+propagation to get the gradients - Update parameters (gradient descent)
+
+In practice, you'll often build helper functions to compute steps 1-3,
+then merge them into one function called \texttt{nn\_model()}. Once
+you've built \texttt{nn\_model()} and learned the right parameters, you
+can make predictions on new data.
+
+    \#\#\# 4.1 - Defining the neural network structure \#\#\#\#
+
+\#\#\# Exercise 2 - layer\_sizes
+
+Define three variables: - n\_x: the size of the input layer - n\_h: the
+size of the hidden layer (set this to 4) - n\_y: the size of the output
+layer
+
+\textbf{Hint}: Use shapes of X and Y to find n\_x and n\_y. Also, hard
+code the hidden layer size to be 4.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: layer\PYZus{}sizes}
+
+\PY{k}{def} \PY{n+nf}{layer\PYZus{}sizes}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    X \PYZhy{}\PYZhy{} input dataset of shape (input size, number of examples)}
+\PY{l+s+sd}{    Y \PYZhy{}\PYZhy{} labels of shape (output size, number of examples)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    n\PYZus{}x \PYZhy{}\PYZhy{} the size of the input layer}
+\PY{l+s+sd}{    n\PYZus{}h \PYZhy{}\PYZhy{} the size of the hidden layer}
+\PY{l+s+sd}{    n\PYZus{}y \PYZhy{}\PYZhy{} the size of the output layer}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{}(≈ 3 lines of code)}
+    \PY{c+c1}{\PYZsh{} n\PYZus{}x = ... }
+    \PY{c+c1}{\PYZsh{} n\PYZus{}h = ...}
+    \PY{c+c1}{\PYZsh{} n\PYZus{}y = ... }
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{n\PYZus{}x} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{n\PYZus{}h} \PY{o}{=} \PY{l+m+mi}{4}
+    \PY{n}{n\PYZus{}y} \PY{o}{=} \PY{n}{Y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    \PY{k}{return} \PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y} \PY{o}{=} \PY{n}{layer\PYZus{}sizes\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y}\PY{p}{)} \PY{o}{=} \PY{n}{layer\PYZus{}sizes}\PY{p}{(}\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The size of the input layer is: n\PYZus{}x = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The size of the hidden layer is: n\PYZus{}h = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The size of the output layer is: n\PYZus{}y = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{n\PYZus{}y}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{layer\PYZus{}sizes\PYZus{}test}\PY{p}{(}\PY{n}{layer\PYZus{}sizes}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The size of the input layer is: n\_x = 5
+The size of the hidden layer is: n\_h = 4
+The size of the output layer is: n\_y = 2
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+The size of the input layer is: n_x = 5
+The size of the hidden layer is: n_h = 4
+The size of the output layer is: n_y = 2
+\end{verbatim}
+
+    \#\#\# 4.2 - Initialize the model's parameters \#\#\#\#
+
+\#\#\# Exercise 3 - initialize\_parameters
+
+Implement the function \texttt{initialize\_parameters()}.
+
+\textbf{Instructions}: - Make sure your parameters' sizes are right.
+Refer to the neural network figure above if needed. - You will
+initialize the weights matrices with random values. - Use:
+\texttt{np.random.randn(a,b)\ *\ 0.01} to randomly initialize a matrix
+of shape (a,b). - You will initialize the bias vectors as zeros. - Use:
+\texttt{np.zeros((a,b))} to initialize a matrix of shape (a,b) with
+zeros.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: initialize\PYZus{}parameters}
+
+\PY{k}{def} \PY{n+nf}{initialize\PYZus{}parameters}\PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Argument:}
+\PY{l+s+sd}{    n\PYZus{}x \PYZhy{}\PYZhy{} size of the input layer}
+\PY{l+s+sd}{    n\PYZus{}h \PYZhy{}\PYZhy{} size of the hidden layer}
+\PY{l+s+sd}{    n\PYZus{}y \PYZhy{}\PYZhy{} size of the output layer}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    params \PYZhy{}\PYZhy{} python dictionary containing your parameters:}
+\PY{l+s+sd}{                    W1 \PYZhy{}\PYZhy{} weight matrix of shape (n\PYZus{}h, n\PYZus{}x)}
+\PY{l+s+sd}{                    b1 \PYZhy{}\PYZhy{} bias vector of shape (n\PYZus{}h, 1)}
+\PY{l+s+sd}{                    W2 \PYZhy{}\PYZhy{} weight matrix of shape (n\PYZus{}y, n\PYZus{}h)}
+\PY{l+s+sd}{                    b2 \PYZhy{}\PYZhy{} bias vector of shape (n\PYZus{}y, 1)}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}    
+    \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} W1 = ...}
+    \PY{c+c1}{\PYZsh{} b1 = ...}
+    \PY{c+c1}{\PYZsh{} W2 = ...}
+    \PY{c+c1}{\PYZsh{} b2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{W1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}x}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{0.01}
+    \PY{n}{b1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    \PY{n}{W2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{n\PYZus{}y}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{)} \PY{o}{*} \PY{l+m+mf}{0.01}
+    \PY{n}{b2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{n\PYZus{}y}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+
+    \PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{W1}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{b1}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{W2}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{b2}\PY{p}{\PYZcb{}}
+    
+    \PY{k}{return} \PY{n}{parameters}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y} \PY{o}{=} \PY{n}{initialize\PYZus{}parameters\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{n}{parameters} \PY{o}{=} \PY{n}{initialize\PYZus{}parameters}\PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{initialize\PYZus{}parameters\PYZus{}test}\PY{p}{(}\PY{n}{initialize\PYZus{}parameters}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+W1 = [[-0.00416758 -0.00056267]
+ [-0.02136196  0.01640271]
+ [-0.01793436 -0.00841747]
+ [ 0.00502881 -0.01245288]]
+b1 = [[0.]
+ [0.]
+ [0.]
+ [0.]]
+W2 = [[-0.01057952 -0.00909008  0.00551454  0.02292208]]
+b2 = [[0.]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{Expected output}
+
+\begin{verbatim}
+W1 = [[-0.00416758 -0.00056267]
+ [-0.02136196  0.01640271]
+ [-0.01793436 -0.00841747]
+ [ 0.00502881 -0.01245288]]
+b1 = [[0.]
+ [0.]
+ [0.]
+ [0.]]
+W2 = [[-0.01057952 -0.00909008  0.00551454  0.02292208]]
+b2 = [[0.]]
+\end{verbatim}
+
+    \#\#\# 4.3 - The Loop
+
+\#\#\# Exercise 4 - forward\_propagation
+
+Implement \texttt{forward\_propagation()} using the following equations:
+
+\[Z^{[1]} =  W^{[1]} X + b^{[1]}\tag{1}\]
+\[A^{[1]} = \tanh(Z^{[1]})\tag{2}\]
+\[Z^{[2]} = W^{[2]} A^{[1]} + b^{[2]}\tag{3}\]
+\[\hat{Y} = A^{[2]} = \sigma(Z^{[2]})\tag{4}\]
+
+\textbf{Instructions}:
+
+\begin{itemize}
+\tightlist
+\item
+  Check the mathematical representation of your classifier in the figure
+  above.
+\item
+  Use the function \texttt{sigmoid()}. It's built into (imported) this
+  notebook.
+\item
+  Use the function \texttt{np.tanh()}. It's part of the numpy library.
+\item
+  Implement using these steps:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Retrieve each parameter from the dictionary ``parameters'' (which is
+    the output of \texttt{initialize\_parameters()} by using
+    \texttt{parameters{[}".."{]}}.
+  \item
+    Implement Forward Propagation. Compute \(Z^{[1]}, A^{[1]}, Z^{[2]}\)
+    and \(A^{[2]}\) (the vector of all your predictions on all the
+    examples in the training set).
+  \end{enumerate}
+\item
+  Values needed in the backpropagation are stored in ``cache''. The
+  cache will be given as an input to the backpropagation function.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION:forward\PYZus{}propagation}
+
+\PY{k}{def} \PY{n+nf}{forward\PYZus{}propagation}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{parameters}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Argument:}
+\PY{l+s+sd}{    X \PYZhy{}\PYZhy{} input data of size (n\PYZus{}x, m)}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} python dictionary containing your parameters (output of initialization function)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    A2 \PYZhy{}\PYZhy{} The sigmoid output of the second activation}
+\PY{l+s+sd}{    cache \PYZhy{}\PYZhy{} a dictionary containing \PYZdq{}Z1\PYZdq{}, \PYZdq{}A1\PYZdq{}, \PYZdq{}Z2\PYZdq{} and \PYZdq{}A2\PYZdq{}}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} Retrieve each parameter from the dictionary \PYZdq{}parameters\PYZdq{}}
+    \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} W1 = ...}
+    \PY{c+c1}{\PYZsh{} b1 = ...}
+    \PY{c+c1}{\PYZsh{} W2 = ...}
+    \PY{c+c1}{\PYZsh{} b2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    
+    \PY{n}{W1} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{b1} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{W2} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{b2} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{c+c1}{\PYZsh{} Implement Forward Propagation to calculate A2 (probabilities)}
+    \PY{c+c1}{\PYZsh{} (≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} Z1 = ...}
+    \PY{c+c1}{\PYZsh{} A1 = ...}
+    \PY{c+c1}{\PYZsh{} Z2 = ...}
+    \PY{c+c1}{\PYZsh{} A2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{Z1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{W1}\PY{p}{,}\PY{n}{X}\PY{p}{)} \PY{o}{+} \PY{n}{b1}
+    \PY{n}{A1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{tanh}\PY{p}{(}\PY{n}{Z1}\PY{p}{)}
+    \PY{n}{Z2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{W2}\PY{p}{,}\PY{n}{A1}\PY{p}{)} \PY{o}{+} \PY{n}{b2}
+    \PY{n}{A2} \PY{o}{=} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{Z2}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{k}{assert}\PY{p}{(}\PY{n}{A2}\PY{o}{.}\PY{n}{shape} \PY{o}{==} \PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{cache} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Z1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{Z1}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{A1}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Z2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{Z2}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{A2}\PY{p}{\PYZcb{}}
+    
+    \PY{k}{return} \PY{n}{A2}\PY{p}{,} \PY{n}{cache}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{parameters} \PY{o}{=} \PY{n}{forward\PYZus{}propagation\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{n}{A2}\PY{p}{,} \PY{n}{cache} \PY{o}{=} \PY{n}{forward\PYZus{}propagation}\PY{p}{(}\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{parameters}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{A2}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{forward\PYZus{}propagation\PYZus{}test}\PY{p}{(}\PY{n}{forward\PYZus{}propagation}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+A2 = [[0.21292656 0.21274673 0.21295976]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+A2 = [[0.21292656 0.21274673 0.21295976]]
+\end{verbatim}
+
+    \#\#\# 4.4 - Compute the Cost
+
+Now that you've computed \(A^{[2]}\) (in the Python variable
+``\texttt{A2}''), which contains \(a^{[2](i)}\) for all examples, you
+can compute the cost function as follows:
+
+\[J = - \frac{1}{m} \sum\limits_{i = 1}^{m} \large{(} \small y^{(i)}\log\left(a^{[2] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[2] (i)}\right) \large{)} \small\tag{13}\]
+
+\#\#\# Exercise 5 - compute\_cost
+
+Implement \texttt{compute\_cost()} to compute the value of the cost
+\(J\).
+
+\textbf{Instructions}: - There are many ways to implement the
+cross-entropy loss. This is one way to implement one part of the
+equation without for loops:
+\(- \sum\limits_{i=1}^{m} y^{(i)}\log(a^{[2](i)})\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{logprobs }\OperatorTok{=}\NormalTok{ np.multiply(np.log(A2),Y)}
+\NormalTok{cost }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(logprobs)          }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Use that to build the whole expression of the cost function.
+\end{itemize}
+
+\textbf{Notes}:
+
+\begin{itemize}
+\tightlist
+\item
+  You can use either \texttt{np.multiply()} and then \texttt{np.sum()}
+  or directly \texttt{np.dot()}).\\
+\item
+  If you use \texttt{np.multiply} followed by \texttt{np.sum} the end
+  result will be a type \texttt{float}, whereas if you use
+  \texttt{np.dot}, the result will be a 2D numpy array.\\
+\item
+  You can use \texttt{np.squeeze()} to remove redundant dimensions (in
+  the case of single float, this will be reduced to a zero-dimension
+  array).
+\item
+  You can also cast the array as a type \texttt{float} using
+  \texttt{float()}.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: compute\PYZus{}cost}
+
+\PY{k}{def} \PY{n+nf}{compute\PYZus{}cost}\PY{p}{(}\PY{n}{A2}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Computes the cross\PYZhy{}entropy cost given in equation (13)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    A2 \PYZhy{}\PYZhy{} The sigmoid output of the second activation, of shape (1, number of examples)}
+\PY{l+s+sd}{    Y \PYZhy{}\PYZhy{} \PYZdq{}true\PYZdq{} labels vector of shape (1, number of examples)}
+
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    cost \PYZhy{}\PYZhy{} cross\PYZhy{}entropy cost given equation (13)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    
+    \PY{n}{m} \PY{o}{=} \PY{n}{Y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{c+c1}{\PYZsh{} number of examples}
+
+    \PY{c+c1}{\PYZsh{} Compute the cross\PYZhy{}entropy cost}
+    \PY{c+c1}{\PYZsh{} (≈ 2 lines of code)}
+    \PY{c+c1}{\PYZsh{} logprobs = ...}
+    \PY{c+c1}{\PYZsh{} cost = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{cost} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{m} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{A2}\PY{p}{)}\PY{p}{,} \PY{n}{Y}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{A2}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{n}{Y}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{n}{cost} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{squeeze}\PY{p}{(}\PY{n}{cost}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} makes sure cost is the dimension we expect. }
+                                    \PY{c+c1}{\PYZsh{} E.g., turns [[17]] into 17 }
+    
+    \PY{k}{return} \PY{n}{cost}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{A2}\PY{p}{,} \PY{n}{t\PYZus{}Y} \PY{o}{=} \PY{n}{compute\PYZus{}cost\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{n}{cost} \PY{o}{=} \PY{n}{compute\PYZus{}cost}\PY{p}{(}\PY{n}{A2}\PY{p}{,} \PY{n}{t\PYZus{}Y}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cost = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{compute\PYZus{}cost}\PY{p}{(}\PY{n}{A2}\PY{p}{,} \PY{n}{t\PYZus{}Y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{compute\PYZus{}cost\PYZus{}test}\PY{p}{(}\PY{n}{compute\PYZus{}cost}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+cost = 0.6930587610394646
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\texttt{cost\ =\ 0.6930587610394646}
+
+    \#\#\# 4.5 - Implement Backpropagation
+
+Using the cache computed during forward propagation, you can now
+implement backward propagation.
+
+\#\#\# Exercise 6 - backward\_propagation
+
+Implement the function \texttt{backward\_propagation()}.
+
+\textbf{Instructions}: Backpropagation is usually the hardest (most
+mathematical) part in deep learning. To help you, here again is the
+slide from the lecture on backpropagation. You'll want to use the six
+equations on the right of this slide, since you are building a
+vectorized implementation.
+
+Figure 1: Backpropagation. Use the six equations on the right.
+
+\begin{itemize}
+\tightlist
+\item
+  Tips:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    To compute dZ1 you'll need to compute \(g^{[1]'}(Z^{[1]})\). Since
+    \(g^{[1]}(.)\) is the tanh activation function, if
+    \(a = g^{[1]}(z)\) then \(g^{[1]'}(z) = 1-a^2\). So you can compute
+    \(g^{[1]'}(Z^{[1]})\) using \texttt{(1\ -\ np.power(A1,\ 2))}.
+  \end{itemize}
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{42}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: backward\PYZus{}propagation}
+
+\PY{k}{def} \PY{n+nf}{backward\PYZus{}propagation}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{cache}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Implement the backward propagation using the instructions above.}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} python dictionary containing our parameters }
+\PY{l+s+sd}{    cache \PYZhy{}\PYZhy{} a dictionary containing \PYZdq{}Z1\PYZdq{}, \PYZdq{}A1\PYZdq{}, \PYZdq{}Z2\PYZdq{} and \PYZdq{}A2\PYZdq{}.}
+\PY{l+s+sd}{    X \PYZhy{}\PYZhy{} input data of shape (2, number of examples)}
+\PY{l+s+sd}{    Y \PYZhy{}\PYZhy{} \PYZdq{}true\PYZdq{} labels vector of shape (1, number of examples)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    grads \PYZhy{}\PYZhy{} python dictionary containing your gradients with respect to different parameters}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{m} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} First, retrieve W1 and W2 from the dictionary \PYZdq{}parameters\PYZdq{}.}
+    \PY{c+c1}{\PYZsh{}(≈ 2 lines of code)}
+    \PY{c+c1}{\PYZsh{} W1 = ...}
+    \PY{c+c1}{\PYZsh{} W2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{W1} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{W2} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+        
+    \PY{c+c1}{\PYZsh{} Retrieve also A1 and A2 from dictionary \PYZdq{}cache\PYZdq{}.}
+    \PY{c+c1}{\PYZsh{}(≈ 2 lines of code)}
+    \PY{c+c1}{\PYZsh{} A1 = ...}
+    \PY{c+c1}{\PYZsh{} A2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{A1} \PY{o}{=} \PY{n}{cache}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{A2} \PY{o}{=} \PY{n}{cache}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{c+c1}{\PYZsh{} Backward propagation: calculate dW1, db1, dW2, db2. }
+    \PY{c+c1}{\PYZsh{}(≈ 6 lines of code, corresponding to 6 equations on slide above)}
+    \PY{c+c1}{\PYZsh{} dZ2 = ...}
+    \PY{c+c1}{\PYZsh{} dW2 = ...}
+    \PY{c+c1}{\PYZsh{} db2 = ...}
+    \PY{c+c1}{\PYZsh{} dZ1 = ...}
+    \PY{c+c1}{\PYZsh{} dW1 = ...}
+    \PY{c+c1}{\PYZsh{} db1 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{dZ2} \PY{o}{=} \PY{n}{A2} \PY{o}{\PYZhy{}} \PY{n}{Y}
+    \PY{n}{dW2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{dZ2}\PY{p}{,} \PY{n}{A1}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{/} \PY{n}{m}
+    \PY{n}{db2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{dZ2}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)} \PY{o}{/} \PY{n}{m}
+    \PY{n}{dZ1} \PY{o}{=} \PY{n}{W2}\PY{o}{.}\PY{n}{T} \PY{o}{*} \PY{n}{dZ2}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{power}\PY{p}{(}\PY{n}{A1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    \PY{n}{dW1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{dZ1}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{/} \PY{n}{m}
+    \PY{n}{db1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{dZ1}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)} \PY{o}{/} \PY{n}{m}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{n}{grads} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{dW1}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{db1}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{dW2}\PY{p}{,}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{db2}\PY{p}{\PYZcb{}}
+    
+    \PY{k}{return} \PY{n}{grads}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{43}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{parameters}\PY{p}{,} \PY{n}{cache}\PY{p}{,} \PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y} \PY{o}{=} \PY{n}{backward\PYZus{}propagation\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{grads} \PY{o}{=} \PY{n}{backward\PYZus{}propagation}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{cache}\PY{p}{,} \PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW1 = }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db1 = }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW2 = }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db2 = }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{backward\PYZus{}propagation\PYZus{}test}\PY{p}{(}\PY{n}{backward\PYZus{}propagation}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+dW1 = [[ 0.00301023 -0.00747267]
+ [ 0.00257968 -0.00641288]
+ [-0.00156892  0.003893  ]
+ [-0.00652037  0.01618243]]
+db1 = [[ 0.00176201]
+ [ 0.00150995]
+ [-0.00091736]
+ [-0.00381422]]
+dW2 = [[ 0.00078841  0.01765429 -0.00084166 -0.01022527]]
+db2 = [[-0.16655712]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+dW1 = [[ 0.00301023 -0.00747267]
+ [ 0.00257968 -0.00641288]
+ [-0.00156892  0.003893  ]
+ [-0.00652037  0.01618243]]
+db1 = [[ 0.00176201]
+ [ 0.00150995]
+ [-0.00091736]
+ [-0.00381422]]
+dW2 = [[ 0.00078841  0.01765429 -0.00084166 -0.01022527]]
+db2 = [[-0.16655712]]
+\end{verbatim}
+
+    \#\#\# 4.6 - Update Parameters
+
+\#\#\# Exercise 7 - update\_parameters
+
+Implement the update rule. Use gradient descent. You have to use (dW1,
+db1, dW2, db2) in order to update (W1, b1, W2, b2).
+
+\textbf{General gradient descent rule}:
+\(\theta = \theta - \alpha \frac{\partial J }{ \partial \theta }\) where
+\(\alpha\) is the learning rate and \(\theta\) represents a parameter.
+
+Figure 2: The gradient descent algorithm with a good learning rate
+(converging) and a bad learning rate (diverging). Images courtesy of
+Adam Harley.
+
+\textbf{Hint}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \texttt{copy.deepcopy(...)} when copying lists or dictionaries
+  that are passed as parameters to functions. It avoids input parameters
+  being modified within the function. In some scenarios, this could be
+  inefficient, but it is required for grading purposes.
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{48}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: update\PYZus{}parameters}
+
+\PY{k}{def} \PY{n+nf}{update\PYZus{}parameters}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{grads}\PY{p}{,} \PY{n}{learning\PYZus{}rate} \PY{o}{=} \PY{l+m+mf}{1.2}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Updates parameters using the gradient descent update rule given above}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} python dictionary containing your parameters }
+\PY{l+s+sd}{    grads \PYZhy{}\PYZhy{} python dictionary containing your gradients }
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} python dictionary containing your updated parameters }
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{c+c1}{\PYZsh{} Retrieve a copy of each parameter from the dictionary \PYZdq{}parameters\PYZdq{}. Use copy.deepcopy(...) for W1 and W2}
+    \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} W1 = ...}
+    \PY{c+c1}{\PYZsh{} b1 = ...}
+    \PY{c+c1}{\PYZsh{} W2 = ...}
+    \PY{c+c1}{\PYZsh{} b2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    
+    \PY{n}{W1} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{b1} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{W2} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n}{b2} \PY{o}{=} \PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{c+c1}{\PYZsh{} Retrieve each gradient from the dictionary \PYZdq{}grads\PYZdq{}}
+    \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} dW1 = ...}
+    \PY{c+c1}{\PYZsh{} db1 = ...}
+    \PY{c+c1}{\PYZsh{} dW2 = ...}
+    \PY{c+c1}{\PYZsh{} db2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{dW1} \PY{o}{=} \PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{db1} \PY{o}{=} \PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{dW2} \PY{o}{=} \PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dW2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{db2} \PY{o}{=} \PY{n}{grads}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{db2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{c+c1}{\PYZsh{} Update rule for each parameter}
+    \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+    \PY{c+c1}{\PYZsh{} W1 = ...}
+    \PY{c+c1}{\PYZsh{} b1 = ...}
+    \PY{c+c1}{\PYZsh{} W2 = ...}
+    \PY{c+c1}{\PYZsh{} b2 = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{W1} \PY{o}{=} \PY{n}{W1} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{dW1}
+    \PY{n}{b1} \PY{o}{=} \PY{n}{b1} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{db1}
+    \PY{n}{W2} \PY{o}{=} \PY{n}{W2} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{dW2}
+    \PY{n}{b2} \PY{o}{=} \PY{n}{b2} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{db2}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{W1}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{b1}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{W2}\PY{p}{,}
+                  \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{b2}\PY{p}{\PYZcb{}}
+    
+    \PY{k}{return} \PY{n}{parameters}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{49}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{parameters}\PY{p}{,} \PY{n}{grads} \PY{o}{=} \PY{n}{update\PYZus{}parameters\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{n}{parameters} \PY{o}{=} \PY{n}{update\PYZus{}parameters}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{grads}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{update\PYZus{}parameters\PYZus{}test}\PY{p}{(}\PY{n}{update\PYZus{}parameters}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+W1 = [[-0.00643025  0.01936718]
+ [-0.02410458  0.03978052]
+ [-0.01653973 -0.02096177]
+ [ 0.01046864 -0.05990141]]
+b1 = [[-1.02420756e-06]
+ [ 1.27373948e-05]
+ [ 8.32996807e-07]
+ [-3.20136836e-06]]
+W2 = [[-0.01041081 -0.04463285  0.01758031  0.04747113]]
+b2 = [[0.00010457]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+W1 = [[-0.00643025  0.01936718]
+ [-0.02410458  0.03978052]
+ [-0.01653973 -0.02096177]
+ [ 0.01046864 -0.05990141]]
+b1 = [[-1.02420756e-06]
+ [ 1.27373948e-05]
+ [ 8.32996807e-07]
+ [-3.20136836e-06]]
+W2 = [[-0.01041081 -0.04463285  0.01758031  0.04747113]]
+b2 = [[0.00010457]]
+\end{verbatim}
+
+    \#\#\# 4.7 - Integration
+
+Integrate your functions in \texttt{nn\_model()}
+
+\#\#\# Exercise 8 - nn\_model
+
+Build your neural network model in \texttt{nn\_model()}.
+
+\textbf{Instructions}: The neural network model has to use the previous
+functions in the right order.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{54}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: nn\PYZus{}model}
+
+\PY{k}{def} \PY{n+nf}{nn\PYZus{}model}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{num\PYZus{}iterations} \PY{o}{=} \PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{print\PYZus{}cost}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    X \PYZhy{}\PYZhy{} dataset of shape (2, number of examples)}
+\PY{l+s+sd}{    Y \PYZhy{}\PYZhy{} labels of shape (1, number of examples)}
+\PY{l+s+sd}{    n\PYZus{}h \PYZhy{}\PYZhy{} size of the hidden layer}
+\PY{l+s+sd}{    num\PYZus{}iterations \PYZhy{}\PYZhy{} Number of iterations in gradient descent loop}
+\PY{l+s+sd}{    print\PYZus{}cost \PYZhy{}\PYZhy{} if True, print the cost every 1000 iterations}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns:}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} parameters learnt by the model. They can then be used to predict.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    
+    \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}
+    \PY{n}{n\PYZus{}x} \PY{o}{=} \PY{n}{layer\PYZus{}sizes}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{n\PYZus{}y} \PY{o}{=} \PY{n}{layer\PYZus{}sizes}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} Initialize parameters}
+    \PY{c+c1}{\PYZsh{}(≈ 1 line of code)}
+    \PY{c+c1}{\PYZsh{} parameters = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{parameters} \PY{o}{=} \PY{n}{initialize\PYZus{}parameters}\PY{p}{(}\PY{n}{n\PYZus{}x}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}y}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{c+c1}{\PYZsh{} Loop (gradient descent)}
+
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}iterations}\PY{p}{)}\PY{p}{:}
+         
+        \PY{c+c1}{\PYZsh{}(≈ 4 lines of code)}
+        \PY{c+c1}{\PYZsh{} Forward propagation. Inputs: \PYZdq{}X, parameters\PYZdq{}. Outputs: \PYZdq{}A2, cache\PYZdq{}.}
+        \PY{c+c1}{\PYZsh{} A2, cache = ...}
+        
+        \PY{c+c1}{\PYZsh{} Cost function. Inputs: \PYZdq{}A2, Y\PYZdq{}. Outputs: \PYZdq{}cost\PYZdq{}.}
+        \PY{c+c1}{\PYZsh{} cost = ...}
+            
+        \PY{c+c1}{\PYZsh{} Backpropagation. Inputs: \PYZdq{}parameters, cache, X, Y\PYZdq{}. Outputs: \PYZdq{}grads\PYZdq{}.}
+        \PY{c+c1}{\PYZsh{} grads = ...}
+        
+        \PY{c+c1}{\PYZsh{} Gradient descent parameter update. Inputs: \PYZdq{}parameters, grads\PYZdq{}. Outputs: \PYZdq{}parameters\PYZdq{}.}
+        \PY{c+c1}{\PYZsh{} parameters = ...}
+        
+        \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+        \PY{n}{A2}\PY{p}{,} \PY{n}{cache} \PY{o}{=} \PY{n}{forward\PYZus{}propagation}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{parameters}\PY{p}{)}
+        \PY{n}{cost} \PY{o}{=} \PY{n}{compute\PYZus{}cost}\PY{p}{(}\PY{n}{A2}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+        \PY{n}{grads} \PY{o}{=} \PY{n}{backward\PYZus{}propagation}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{cache}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+        \PY{n}{parameters} \PY{o}{=} \PY{n}{update\PYZus{}parameters}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{grads}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+        
+        \PY{c+c1}{\PYZsh{} Print the cost every 1000 iterations}
+        \PY{k}{if} \PY{n}{print\PYZus{}cost} \PY{o+ow}{and} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{1000} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cost after iteration }\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{cost}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{parameters}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y} \PY{o}{=} \PY{n}{nn\PYZus{}model\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+\PY{n}{parameters} \PY{o}{=} \PY{n}{nn\PYZus{}model}\PY{p}{(}\PY{n}{t\PYZus{}X}\PY{p}{,} \PY{n}{t\PYZus{}Y}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{n}{num\PYZus{}iterations}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{print\PYZus{}cost}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{W2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{parameters}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{b2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{nn\PYZus{}model\PYZus{}test}\PY{p}{(}\PY{n}{nn\PYZus{}model}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Cost after iteration 0: 0.693198
+Cost after iteration 1000: 0.000219
+Cost after iteration 2000: 0.000108
+Cost after iteration 3000: 0.000071
+Cost after iteration 4000: 0.000053
+Cost after iteration 5000: 0.000043
+Cost after iteration 6000: 0.000035
+Cost after iteration 7000: 0.000030
+Cost after iteration 8000: 0.000027
+Cost after iteration 9000: 0.000024
+W1 = [[ 0.56305445 -1.03925886]
+ [ 0.7345426  -1.36286875]
+ [-0.72533346  1.33753027]
+ [ 0.74757629 -1.38274074]]
+b1 = [[-0.22240654]
+ [-0.34662093]
+ [ 0.33663708]
+ [-0.35296113]]
+W2 = [[ 1.82196893  3.09657075 -2.98193564  3.19946508]]
+b2 = [[0.21344644]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+Cost after iteration 0: 0.693198
+Cost after iteration 1000: 0.000219
+Cost after iteration 2000: 0.000108
+...
+Cost after iteration 8000: 0.000027
+Cost after iteration 9000: 0.000024
+W1 = [[ 0.56305445 -1.03925886]
+ [ 0.7345426  -1.36286875]
+ [-0.72533346  1.33753027]
+ [ 0.74757629 -1.38274074]]
+b1 = [[-0.22240654]
+ [-0.34662093]
+ [ 0.33663708]
+ [-0.35296113]]
+W2 = [[ 1.82196893  3.09657075 -2.98193564  3.19946508]]
+b2 = [[0.21344644]]
+\end{verbatim}
+
+    \#\# 5 - Test the Model
+
+\#\#\# 5.1 - Predict
+
+\#\#\# Exercise 9 - predict
+
+Predict with your model by building \texttt{predict()}. Use forward
+propagation to predict results.
+
+\textbf{Reminder}: predictions =
+\(y_{prediction} = \mathbb 1 \text{{activation > 0.5}} = \begin{cases}  1 & \text{if}\ activation > 0.5 \\  0 & \text{otherwise}  \end{cases}\)
+
+As an example, if you would like to set the entries of a matrix X to 0
+and 1 based on a threshold you would do:
+\texttt{X\_new\ =\ (X\ \textgreater{}\ threshold)}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{63}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} GRADED FUNCTION: predict}
+
+\PY{k}{def} \PY{n+nf}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{X}\PY{p}{)}\PY{p}{:}
+    \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Using the learned parameters, predicts a class for each example in X}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Arguments:}
+\PY{l+s+sd}{    parameters \PYZhy{}\PYZhy{} python dictionary containing your parameters }
+\PY{l+s+sd}{    X \PYZhy{}\PYZhy{} input data of size (n\PYZus{}x, m)}
+\PY{l+s+sd}{    }
+\PY{l+s+sd}{    Returns}
+\PY{l+s+sd}{    predictions \PYZhy{}\PYZhy{} vector of predictions of our model (red: 0 / blue: 1)}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    
+    \PY{c+c1}{\PYZsh{} Computes probabilities using forward propagation, and classifies to 0/1 using 0.5 as the threshold.}
+    \PY{c+c1}{\PYZsh{}(≈ 2 lines of code)}
+    \PY{c+c1}{\PYZsh{} A2, cache = ...}
+    \PY{c+c1}{\PYZsh{} predictions = ...}
+    \PY{c+c1}{\PYZsh{} YOUR CODE STARTS HERE}
+    \PY{n}{A2}\PY{p}{,} \PY{n}{cache} \PY{o}{=} \PY{n}{forward\PYZus{}propagation}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{parameters}\PY{p}{)}
+    \PY{n}{predictions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{A2}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+         \PY{k}{if} \PY{n}{A2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{i}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.5} \PY{p}{:}
+             \PY{n}{predictions}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{1}
+         \PY{k}{else}\PY{p}{:}
+             \PY{n}{predictions}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{0}
+    
+    \PY{c+c1}{\PYZsh{} YOUR CODE ENDS HERE}
+    
+    \PY{k}{return} \PY{n}{predictions}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{64}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{parameters}\PY{p}{,} \PY{n}{t\PYZus{}X} \PY{o}{=} \PY{n}{predict\PYZus{}test\PYZus{}case}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{predictions} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{t\PYZus{}X}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Predictions: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{predictions}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{predict\PYZus{}test}\PY{p}{(}\PY{n}{predict}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Predictions: [[1. 0. 1.]]
+\textcolor{ansi-green-intense}{All tests passed!}
+    \end{Verbatim}
+
+    \textbf{\emph{Expected output}}
+
+\begin{verbatim}
+Predictions: [[ True False  True]]
+\end{verbatim}
+
+    \#\#\# 5.2 - Test the Model on the Planar Dataset
+
+It's time to run the model and see how it performs on a planar dataset.
+Run the following code to test your model with a single hidden layer of
+\(n_h\) hidden units!
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Build a model with a n\PYZus{}h\PYZhy{}dimensional hidden layer}
+\PY{n}{parameters} \PY{o}{=} \PY{n}{nn\PYZus{}model}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{n\PYZus{}h} \PY{o}{=} \PY{l+m+mi}{4}\PY{p}{,} \PY{n}{num\PYZus{}iterations} \PY{o}{=} \PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{print\PYZus{}cost}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot the decision boundary}
+\PY{n}{plot\PYZus{}decision\PYZus{}boundary}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Decision Boundary for hidden layer size }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Cost after iteration 0: 0.693162
+Cost after iteration 1000: 0.258625
+Cost after iteration 2000: 0.239334
+Cost after iteration 3000: 0.230802
+Cost after iteration 4000: 0.225528
+Cost after iteration 5000: 0.221845
+Cost after iteration 6000: 0.219094
+Cost after iteration 7000: 0.220638
+Cost after iteration 8000: 0.219418
+Cost after iteration 9000: 0.218528
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{65}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(0.5, 1.0, 'Decision Boundary for hidden layer size 4')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_51_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Print accuracy}
+\PY{n}{predictions} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{X}\PY{p}{)}
+\PY{n+nb}{print} \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy: }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{float}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{predictions}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{Y}\PY{p}{,} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{predictions}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{float}\PY{p}{(}\PY{n}{Y}\PY{o}{.}\PY{n}{size}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Expected Output}:
+
+Accuracy
+
+90\%
+
+    Accuracy is really high compared to Logistic Regression. The model has
+learned the patterns of the flower's petals! Unlike logistic regression,
+neural networks are able to learn even highly non-linear decision
+boundaries.
+
+    \hypertarget{congrats-on-finishing-this-programming-assignment}{%
+\subsubsection{Congrats on finishing this Programming
+Assignment!}\label{congrats-on-finishing-this-programming-assignment}}
+
+Here's a quick recap of all you just accomplished:
+
+\begin{itemize}
+\tightlist
+\item
+  Built a complete 2-class classification neural network with a hidden
+  layer
+\item
+  Made good use of a non-linear unit
+\item
+  Computed the cross entropy loss
+\item
+  Implemented forward and backward propagation
+\item
+  Seen the impact of varying the hidden layer size, including
+  overfitting.
+\end{itemize}
+
+You've created a neural network that can learn patterns! Excellent work.
+Below, there are some optional exercises to try out some other hidden
+layer sizes, and other datasets.
+
+    \#\# 6 - Tuning hidden layer size (optional/ungraded exercise)
+
+Run the following code(it may take 1-2 minutes). Then, observe different
+behaviors of the model for various hidden layer sizes.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} This may take about 2 minutes to run}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{32}\PY{p}{)}\PY{p}{)}
+\PY{n}{hidden\PYZus{}layer\PYZus{}sizes} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{]}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{n\PYZus{}h} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{hidden\PYZus{}layer\PYZus{}sizes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hidden Layer of size }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n}{n\PYZus{}h}\PY{p}{)}
+    \PY{n}{parameters} \PY{o}{=} \PY{n}{nn\PYZus{}model}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{num\PYZus{}iterations} \PY{o}{=} \PY{l+m+mi}{5000}\PY{p}{)}
+    \PY{n}{plot\PYZus{}decision\PYZus{}boundary}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{)}
+    \PY{n}{predictions} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{parameters}\PY{p}{,} \PY{n}{X}\PY{p}{)}
+    \PY{n}{accuracy} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{Y}\PY{p}{,}\PY{n}{predictions}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{Y}\PY{p}{,} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{predictions}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{n+nb}{float}\PY{p}{(}\PY{n}{Y}\PY{o}{.}\PY{n}{size}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{)}
+    \PY{n+nb}{print} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy for }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{ hidden units: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{accuracy}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{Interpretation}: - The larger models (with more hidden units)
+are able to fit the training set better, until eventually the largest
+models overfit the data. - The best hidden layer size seems to be around
+n\_h = 5. Indeed, a value around here seems to fits the data well
+without also incurring noticeable overfitting. - Later, you'll become
+familiar with regularization, which lets you use very large models (such
+as n\_h = 50) without much overfitting.
+
+    \textbf{Note}: Remember to submit the assignment by clicking the blue
+``Submit Assignment'' button at the upper-right.
+
+\textbf{Some optional/ungraded questions that you can explore if you
+wish}: - What happens when you change the tanh activation for a sigmoid
+activation or a ReLU activation? - Play with the learning\_rate. What
+happens? - What if we change the dataset? (See part 5 below!)
+
+    \#\# 7- Performance on other datasets
+
+    If you want, you can rerun the whole notebook (minus the dataset part)
+for each of the following datasets.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Datasets}
+\PY{n}{noisy\PYZus{}circles}\PY{p}{,} \PY{n}{noisy\PYZus{}moons}\PY{p}{,} \PY{n}{blobs}\PY{p}{,} \PY{n}{gaussian\PYZus{}quantiles}\PY{p}{,} \PY{n}{no\PYZus{}structure} \PY{o}{=} \PY{n}{load\PYZus{}extra\PYZus{}datasets}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{datasets} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{noisy\PYZus{}circles}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{noisy\PYZus{}circles}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{noisy\PYZus{}moons}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{noisy\PYZus{}moons}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{blobs}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{blobs}\PY{p}{,}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gaussian\PYZus{}quantiles}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{gaussian\PYZus{}quantiles}\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} START CODE HERE \PYZsh{}\PYZsh{}\PYZsh{} (choose your dataset)}
+\PY{n}{dataset} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{noisy\PYZus{}moons}\PY{l+s+s2}{\PYZdq{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{} END CODE HERE \PYZsh{}\PYZsh{}\PYZsh{}}
+
+\PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{datasets}\PY{p}{[}\PY{n}{dataset}\PY{p}{]}
+\PY{n}{X}\PY{p}{,} \PY{n}{Y} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{Y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{Y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} make blobs binary}
+\PY{k}{if} \PY{n}{dataset} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{blobs}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+    \PY{n}{Y} \PY{o}{=} \PY{n}{Y}\PY{o}{\PYZpc{}}\PY{k}{2}
+
+\PY{c+c1}{\PYZsh{} Visualize the data}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{Y}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{40}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{cm}\PY{o}{.}\PY{n}{Spectral}\PY{p}{)}\PY{p}{;}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \textbf{References}:
+
+\begin{itemize}
+\tightlist
+\item
+  http://scs.ryerson.ca/\textasciitilde aharley/neural-networks/
+\item
+  http://cs231n.github.io/neural-networks-case-study/
+\end{itemize}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
